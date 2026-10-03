@@ -1,0 +1,20 @@
+# PlatformIO
+/.pio/
+
+# ESP-IDF / CMake build output
+/build/
+/cmake-build-*/
+
+# Generated ESP-IDF files
+/sdkconfig
+/sdkconfig.old
+/compile_commands.json
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
