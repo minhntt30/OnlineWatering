@@ -3,6 +3,7 @@
 #include "wifi/wifi.h"
 #include "mqtt/mqtt.h"
 
+
 static const char *TAG = "HIVEMQ_APP";
 
 void app_main(void)
@@ -14,6 +15,8 @@ void app_main(void)
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
+
+
 
     ESP_LOGI(TAG, "Connecting to Wi-Fi...");
     wifi_init_sta();

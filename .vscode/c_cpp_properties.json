@@ -235,6 +235,7 @@
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/managed_components/espressif__mqtt/lib/include",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/wifi",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
+                "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                 ""
             ],
             "browse": {
@@ -467,6 +468,7 @@
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/managed_components/espressif__mqtt/lib/include",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/wifi",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
+                    "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                     ""
                 ]
             },
