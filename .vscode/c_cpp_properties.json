@@ -236,6 +236,7 @@
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/wifi",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
+                "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
                 ""
             ],
             "browse": {
@@ -469,6 +470,7 @@
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/wifi",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
+                    "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
                     ""
                 ]
             },

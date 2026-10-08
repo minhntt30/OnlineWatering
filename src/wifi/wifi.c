@@ -13,7 +13,7 @@
 static EventGroupHandle_t s_wifi_event_group;
 #define WIFI_CONNECTED_BIT BIT0
 
-static const char *TAG = "HIVEMQ_APP";
+static const char *TAG = "WIFI";
 
 /* Wi-Fi Event Handler */
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)

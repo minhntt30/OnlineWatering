@@ -17,14 +17,14 @@
 extern const uint8_t hivemq_ca_pem_start[] asm("_binary_isrgrootx1_pem_start");
 extern const uint8_t hivemq_ca_pem_end[]   asm("_binary_isrgrootx1_pem_end");
 
-static const char *TAG = "HIVEMQ_APP";
+static const char *TAG = "MQTT";
 static esp_mqtt_client_handle_t mqtt_client = NULL;
 
 
 static void mqtt_subcribe(esp_mqtt_client_handle_t client)
 {
-    esp_mqtt_client_subscribe(client, "esp32/led/control", 0);
-    ESP_ERROR_CHECK(cmd_table_register("esp32/led/control", led_control));
+    esp_mqtt_client_subscribe(client, "startpump", 0);
+    ESP_ERROR_CHECK(cmd_table_register("startpump", pump_start_cmd));
 }
 
 /* MQTT Event Handler */

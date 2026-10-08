@@ -2,9 +2,10 @@
 #include "nvs_flash.h"
 #include "wifi/wifi.h"
 #include "mqtt/mqtt.h"
+#include "pump/pump.h"
 
 
-static const char *TAG = "HIVEMQ_APP";
+static const char *TAG = "MAIN";
 
 void app_main(void)
 {
@@ -16,11 +17,12 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 
-
-
     ESP_LOGI(TAG, "Connecting to Wi-Fi...");
     wifi_init_sta();
 
     ESP_LOGI(TAG, "Starting MQTT Client...");
     mqtt_app_start();
+
+    ESP_LOGI(TAG, "Initializing Pump...");
+    pump_init();
 }
