@@ -3,6 +3,7 @@
 #include "driver/ledc.h"
 #include "esp_timer.h"
 #include "esp_log.h"
+#include "led/led.h"
 
 // --- LR7843 gate pin (ESP32-WROOM-32) ---
 // GPIO25: not a strapping pin, not used by flash. Add a 10k pull-down gate->GND.
@@ -88,6 +89,7 @@ void pump_start(uint8_t duty_percent, uint32_t duration_ms)
     ESP_ERROR_CHECK(ledc_set_duty(PUMP_LEDC_MODE, PUMP_LEDC_CHANNEL, duty));
     ESP_ERROR_CHECK(ledc_update_duty(PUMP_LEDC_MODE, PUMP_LEDC_CHANNEL));
     s_running = true;
+    led_set_pump_active(true);
     ESP_LOGI(TAG, "Pump ON: %u%% for %lu ms", duty_percent, (unsigned long)duration_ms);
 }
 
@@ -102,6 +104,7 @@ void pump_stop(void)
         ESP_LOGI(TAG, "Pump OFF");
     }
     s_running = false;
+    led_set_pump_active(false);
 }
 
 bool pump_is_running(void)

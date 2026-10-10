@@ -6,10 +6,11 @@ set(app_sources
     "cmd/func.c"
     "pump/pump.c"
     "watchdog/watchdog.c"
+    "led/led.c"
 )
 
 idf_component_register(
     SRCS ${app_sources}
-    INCLUDE_DIRS "." "wifi" "mqtt" "cmd" "pump" "watchdog"
+    INCLUDE_DIRS "." "wifi" "mqtt" "cmd" "pump" "watchdog" "led"
     EMBED_TXTFILES "isrgrootx1.pem"
 )

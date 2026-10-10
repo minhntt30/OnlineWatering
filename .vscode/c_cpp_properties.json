@@ -237,6 +237,7 @@
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
+                "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/watchdog",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/.pio/libdeps/esp32dev/Unity/src",
                 ""
             ],
@@ -472,6 +473,7 @@
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
+                    "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/watchdog",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/.pio/libdeps/esp32dev/Unity/src",
                     ""
                 ]

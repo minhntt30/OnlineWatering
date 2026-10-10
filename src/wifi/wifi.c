@@ -6,6 +6,7 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "led/led.h"
 
 // --- Wi-Fi Credentials ---
 #define WIFI_SSID      "Small house"
@@ -39,11 +40,13 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t e
 
         if (s_retry_count < WIFI_MAX_RETRY) {
             s_retry_count++;
+            led_set_state(LED_STATE_WIFI_CONNECTING);
             ESP_LOGW(TAG, "Wi-Fi disconnected, retry %d/%d in %d s",
                      s_retry_count, WIFI_MAX_RETRY, WIFI_RETRY_DELAY_MS / 1000);
             esp_timer_start_once(s_retry_timer, (uint64_t)WIFI_RETRY_DELAY_MS * 1000);
         } else {
             ESP_LOGE(TAG, "Wi-Fi failed after %d retries, giving up", WIFI_MAX_RETRY);
+            led_set_state(LED_STATE_ERROR);
             xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
         }
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
