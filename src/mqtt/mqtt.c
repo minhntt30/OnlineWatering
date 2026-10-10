@@ -5,6 +5,7 @@
 #include "cmd/cmd_table.h"
 #include "cmd/func.h"
 #include "esp_err.h"
+#include "esp_timer.h"
 
 // --- HiveMQ Credentials ---
 // Example host: "xxxxxx.s1.eu.hivemq.cloud" (DO NOT include "mqtts://")
@@ -13,18 +14,48 @@
 #define HIVEMQ_USER     "hivemq.webclient.17887940417135"
 #define HIVEMQ_PASS     "aGku8b3naRARxn%LNLOkIgqJOsniheT2"
 
+// --- Reconnect policy ---
+#define MQTT_MAX_RETRY       7
+#define MQTT_RETRY_DELAY_MS  30000
+
 // Import the embedded root certificate address from binary symbols
 extern const uint8_t hivemq_ca_pem_start[] asm("_binary_isrgrootx1_pem_start");
 extern const uint8_t hivemq_ca_pem_end[]   asm("_binary_isrgrootx1_pem_end");
 
 static const char *TAG = "MQTT";
 static esp_mqtt_client_handle_t mqtt_client = NULL;
+static esp_timer_handle_t s_retry_timer = NULL;
+static int s_retry_count = 0;
 
+/* Retry delay elapsed: try to connect again (non-blocking, runs in esp_timer task) */
+static void mqtt_retry_timer_cb(void *arg)
+{
+    esp_mqtt_client_reconnect(mqtt_client);
+}
 
+/* Called on every disconnect or failed connection: retry after a delay, or give up */
+static void mqtt_schedule_retry(void)
+{
+    if (s_retry_count < MQTT_MAX_RETRY) {
+        s_retry_count++;
+        ESP_LOGW(TAG, "MQTT disconnected, retry %d/%d in %d s",
+                 s_retry_count, MQTT_MAX_RETRY, MQTT_RETRY_DELAY_MS / 1000);
+        esp_timer_start_once(s_retry_timer, (uint64_t)MQTT_RETRY_DELAY_MS * 1000);
+    } else {
+        ESP_LOGE(TAG, "MQTT failed after %d retries, giving up", MQTT_MAX_RETRY);
+    }
+}
+
+/* Register command functions (once, before the client starts) */
+static void mqtt_register_commands(void)
+{
+    ESP_ERROR_CHECK(cmd_table_register("startpump", pump_start_cmd));
+}
+
+/* Subscribe to command topics (runs on every (re)connect) */
 static void mqtt_subcribe(esp_mqtt_client_handle_t client)
 {
     esp_mqtt_client_subscribe(client, "startpump", 0);
-    ESP_ERROR_CHECK(cmd_table_register("startpump", pump_start_cmd));
 }
 
 /* MQTT Event Handler */
@@ -37,11 +68,12 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     switch ((esp_mqtt_event_id_t)event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG, "MQTT Connected to HiveMQ!");
+            s_retry_count = 0;
             mqtt_subcribe(client);
             break;
 
         case MQTT_EVENT_DISCONNECTED:
-            ESP_LOGW(TAG, "MQTT Disconnected");
+            mqtt_schedule_retry();
             break;
 
         case MQTT_EVENT_DATA:
@@ -89,7 +121,19 @@ void mqtt_app_start(void)
                 .password = HIVEMQ_PASS,
             },
         },
+        .network = {
+            // Reconnects are handled by mqtt_schedule_retry() instead
+            .disable_auto_reconnect = true,
+        },
     };
+
+    mqtt_register_commands();
+
+    const esp_timer_create_args_t retry_timer_args = {
+        .callback = mqtt_retry_timer_cb,
+        .name     = "mqtt_retry",
+    };
+    ESP_ERROR_CHECK(esp_timer_create(&retry_timer_args, &s_retry_timer));
 
     mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);

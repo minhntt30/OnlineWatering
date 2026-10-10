@@ -10,7 +10,7 @@ void pump_start_cmd(const char *data, int data_len)
 {
     char buf[32];
     unsigned int duty;
-    unsigned int duration_ms;
+    unsigned int duration_s;
 
     // 'data' is not null-terminated: copy it before parsing
     if (data_len <= 0 || data_len >= (int)sizeof(buf)) {
@@ -20,15 +20,15 @@ void pump_start_cmd(const char *data, int data_len)
     memcpy(buf, data, data_len);
     buf[data_len] = '\0';
 
-    if (sscanf(buf, "%u,%u", &duty, &duration_ms) != 2 || duty > 100) {
-        ESP_LOGW(TAG, "startpump: expected \"duty,duration_ms\", got \"%s\"", buf);
+    if (sscanf(buf, "%u,%u", &duty, &duration_s) != 2 || duty > 100) {
+        ESP_LOGW(TAG, "startpump: expected \"duty,duration_s\", got \"%s\"", buf);
         return;
     }
     // A running pump needs an explicit duration (duty 0 just stops it)
-    if (duty > 0 && duration_ms == 0) {
-        ESP_LOGW(TAG, "startpump: duration_ms must be > 0");
+    if (duty > 0 && duration_s == 0) {
+        ESP_LOGW(TAG, "startpump: duration_s must be > 0");
         return;
     }
 
-    pump_start((uint8_t)duty, duration_ms);
+    pump_start((uint8_t)duty, duration_s * 1000);
 }
