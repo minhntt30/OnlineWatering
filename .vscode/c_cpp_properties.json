@@ -237,6 +237,7 @@
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                 "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
+                "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/.pio/libdeps/esp32dev/Unity/src",
                 ""
             ],
             "browse": {
@@ -471,6 +472,7 @@
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/mqtt",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/cmd",
                     "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/src/pump",
+                    "C:/Users/Minh/Documents/PlatformIO/Projects/online_watering/.pio/libdeps/esp32dev/Unity/src",
                     ""
                 ]
             },
@@ -489,6 +491,7 @@
                 "ESP_PLATFORM",
                 "PLATFORMIO=60200",
                 "ARDUINO_ESP32_DEV",
+                "UNITY_INCLUDE_CONFIG_H",
                 ""
             ],
             "cStandard": "gnu23",

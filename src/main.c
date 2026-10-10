@@ -3,6 +3,7 @@
 #include "wifi/wifi.h"
 #include "mqtt/mqtt.h"
 #include "pump/pump.h"
+#include "watchdog/watchdog.h"
 
 
 static const char *TAG = "MAIN";
@@ -25,4 +26,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Initializing Pump...");
     pump_init();
+
+    ESP_LOGI(TAG, "Initializing Watchdog...");
+    watchdog_init();
 }
