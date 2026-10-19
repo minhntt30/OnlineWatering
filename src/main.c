@@ -5,6 +5,7 @@
 #include "pump/pump.h"
 #include "watchdog/watchdog.h"
 #include "led/led.h"
+#include "moisture/moisture.h"
 
 
 static const char *TAG = "MAIN";
@@ -18,7 +19,7 @@ void app_main(void)
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
-
+    
     ESP_LOGI(TAG, "Initializing Pump...");
     pump_init();
 
@@ -27,6 +28,11 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Initializing LED...");
     led_init();
+
+    ESP_LOGI(TAG, "Initializing Moisture sensor...");
+    if (moisture_init() != ESP_OK) {
+        ESP_LOGE(TAG, "Moisture sensor init failed");
+    }
 
     ESP_LOGI(TAG, "Connecting to Wi-Fi...");
     if (wifi_init_sta() == ESP_OK) {

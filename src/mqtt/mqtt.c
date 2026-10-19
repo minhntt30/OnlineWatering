@@ -53,12 +53,23 @@ static void mqtt_schedule_retry(void)
 static void mqtt_register_commands(void)
 {
     ESP_ERROR_CHECK(cmd_table_register("startpump", pump_start_cmd));
+    ESP_ERROR_CHECK(cmd_table_register("getmoisture", moisture_read_cmd));
 }
 
 /* Subscribe to command topics (runs on every (re)connect) */
 static void mqtt_subcribe(esp_mqtt_client_handle_t client)
 {
     esp_mqtt_client_subscribe(client, "startpump", 0);
+    esp_mqtt_client_subscribe(client, "getmoisture", 0);
+}
+
+bool mqtt_publish_text(const char *topic, const char *payload)
+{
+    if (mqtt_client == NULL) {
+        return false;
+    }
+    // length 0 = use strlen(payload); QoS 0; not retained
+    return esp_mqtt_client_publish(mqtt_client, topic, payload, 0, 0, 0) >= 0;
 }
 
 /* MQTT Event Handler */
